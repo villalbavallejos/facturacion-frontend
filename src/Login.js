@@ -1,12 +1,14 @@
-// src/Login.js
+// src/Login.js (Modificado)
 
 import React, { useState } from 'react';
 import axios from 'axios';
-import './Login.css'; // Importa la hoja de estilos CSS
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate
+import './Login.css';
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate(); // Inicializa el hook de navegación
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -21,8 +23,9 @@ function Login() {
       localStorage.setItem('jwtToken', token);
       
       alert('¡Bienvenido! Has iniciado sesión correctamente.');
-      // Opcional: Redireccionar al usuario a la página de clientes
-      // window.location.href = '/clientes'; 
+      
+      // Redireccionar al usuario al dashboard
+      navigate('/dashboard'); 
       
     } catch (error) {
       console.error('Error durante el login:', error);

@@ -1,16 +1,23 @@
-// src/App.js
+// src/App.js (Modificado)
 
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import Login from './Login'; // Importa el componente de Login
+import Login from './Login';
+import Dashboard from './Dashboard';
 
 function App() {
   return (
-    <div className="App">
-      <main>
-        <Login />
-      </main>
-    </div>
+    <Router>
+      <div className="App">
+        <main>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Routes>
+        </main>
+      </div>
+    </Router>
   );
 }
 
