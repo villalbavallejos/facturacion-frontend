@@ -3,10 +3,15 @@ import React, { useState, useMemo } from 'react';
 export default function ClientList({ clients, onEdit, onDelete, onNew }) {
   const [filter, setFilter] = useState('');
 
-  const filteredClients = useMemo(() =>
-    clients.filter(client =>
-      client.name.toLowerCase().includes(filter.toLowerCase())
-    ), [clients, filter]);
+  const filteredClients = useMemo(() => {
+    if (!clients) {
+      return [];
+    }
+
+    return clients.filter(client =>
+      client.nombre.toLowerCase().includes(filter.toLowerCase())
+    );
+  }, [clients, filter]);
 
   return (
     <div className="client-list-container">
@@ -26,18 +31,20 @@ export default function ClientList({ clients, onEdit, onDelete, onNew }) {
           <tr>
             <th>Nombre</th>
             <th>Email</th>
-            <th>Compañía</th>
+            <th>Teléfono</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
           {filteredClients.map(client => (
             <tr key={client.id}>
-              <td>{client.name}</td>
+              <td>{client.nombre}</td>
               <td>{client.email}</td>
-              <td>{client.company}</td>
+              <td>{client.telefono}</td>
               <td className="actions-cell">
+                {/* Llama a la prop onEdit con el objeto client */}
                 <button onClick={() => onEdit(client)} className="edit-button">Editar</button>
+                {/* Llama a la prop onDelete con el id del cliente */}
                 <button onClick={() => onDelete(client.id)} className="delete-button">Eliminar</button>
               </td>
             </tr>

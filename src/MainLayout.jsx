@@ -3,37 +3,42 @@ import Sidebar from './components/Sidebar';
 import ClientList from './components/ClientList';
 import ClientModal from './components/modals/ClientModal';
 import ConfirmationModal from './components/modals/ConfirmationModal';
-import { useClients } from './hooks/useClients'; // Importa el hook
+import { useClients } from './hooks/useClients';
 
 export default function MainLayout({ username, onLogout }) {
-  const { clients, addClient, updateClient, deleteClient } = useClients(); // Usa el hook
+  const { clients, loading, error, addClient, updateClient, deleteClient } = useClients();
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingClient, setEditingClient] = useState(null);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [clientToDelete, setClientToDelete] = useState(null);
 
+  // Botón "Nuevo Cliente"
   const handleNew = () => {
     setEditingClient(null);
     setIsModalOpen(true);
   };
   
+  // Botón "Editar" en la tabla
   const handleEdit = (client) => {
     setEditingClient(client);
     setIsModalOpen(true);
   };
 
+  // Botón "Eliminar" en la tabla
   const handleDeleteRequest = (clientId) => {
     setClientToDelete(clientId);
     setIsConfirmOpen(true);
   };
 
+  // Confirmación del modal de eliminación
   const executeDelete = () => {
     deleteClient(clientToDelete);
     setIsConfirmOpen(false);
     setClientToDelete(null);
   };
 
+  // Guardar (crear/editar) desde el modal
   const handleSave = (clientData) => {
     if (clientData.id) {
       updateClient(clientData);
@@ -42,16 +47,26 @@ export default function MainLayout({ username, onLogout }) {
     }
   };
 
+  const renderContent = () => {
+    if (loading) {
+      return <p>Cargando clientes...</p>;
+    }
+    if (error) {
+      return <p style={{ color: 'red' }}>Error: {error}</p>;
+    }
+    return <ClientList 
+      clients={clients} 
+      onEdit={handleEdit} 
+      onDelete={handleDeleteRequest} 
+      onNew={handleNew} 
+    />;
+  };
+
   return (
     <div className="app-layout">
       <Sidebar username={username} onLogout={onLogout} />
       <main className="main-content">
-        <ClientList 
-          clients={clients} 
-          onEdit={handleEdit} 
-          onDelete={handleDeleteRequest} 
-          onNew={handleNew} 
-        />
+        {renderContent()}
       </main>
       <ClientModal 
         isOpen={isModalOpen} 

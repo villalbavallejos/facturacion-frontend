@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
 
 export default function ClientModal({ isOpen, onClose, onSave, client }) {
-  const [formData, setFormData] = useState({ name: '', email: '', company: '' });
+  // Cambia 'name' a 'nombre' y añade 'telefono'
+  const [formData, setFormData] = useState({ nombre: '', email: '', telefono: '' });
 
   useEffect(() => {
     if (client) {
-      setFormData({ name: client.name, email: client.email, company: client.company });
+      // Usa client.nombre, client.email y client.telefono
+      setFormData({ 
+        nombre: client.nombre, 
+        email: client.email, 
+        telefono: client.telefono 
+      });
     } else {
-      setFormData({ name: '', email: '', company: '' });
+      setFormData({ nombre: '', email: '', telefono: '' });
     }
   }, [client, isOpen]);
 
@@ -20,6 +26,7 @@ export default function ClientModal({ isOpen, onClose, onSave, client }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // La función onSave recibirá el objeto con los nombres correctos
     onSave({ ...client, ...formData });
     onClose();
   };
@@ -34,15 +41,17 @@ export default function ClientModal({ isOpen, onClose, onSave, client }) {
         <form onSubmit={handleSubmit} className="modal-form">
           <div className="input-group">
             <label>Nombre</label>
-            <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+            {/* El atributo 'name' debe coincidir con el estado: nombre */}
+            <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} required />
           </div>
           <div className="input-group">
             <label>Email</label>
             <input type="email" name="email" value={formData.email} onChange={handleChange} required />
           </div>
           <div className="input-group">
-            <label>Compañía</label>
-            <input type="text" name="company" value={formData.company} onChange={handleChange} required />
+            <label>Teléfono</label>
+            {/* Añade el input para el teléfono */}
+            <input type="text" name="telefono" value={formData.telefono} onChange={handleChange} required />
           </div>
           <div className="modal-actions">
             <button type="button" onClick={onClose} className="cancel-button">Cancelar</button>
