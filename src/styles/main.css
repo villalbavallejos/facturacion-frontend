@@ -59,3 +59,18 @@ body {
 .modal-actions button { padding: 10px 20px; }
 .cancel-button { background-color: var(--secondary-color); }
 .confirm-delete-button { background-color: var(--danger-color); }
+.sidebar-menu li a {
+  display: block;
+  padding: 15px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--sidebar-text);
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+.sidebar-menu li a.active {
+  background-color: var(--primary-color);
+}
+.sidebar-menu li a:hover:not(.active) {
+  background-color: #495057;
+}
