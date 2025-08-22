@@ -1,5 +1,4 @@
 // src/App.jsx
-
 import React, { useState, useEffect } from 'react';
 import Login from './components/Login';
 import MainLayout from './MainLayout';
@@ -14,15 +13,14 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState('');
   const navigate = useNavigate();
 
-  // --- Lógica corregida para la persistencia de la sesión ---
+  // Esta es la lógica clave para la persistencia de la sesión
   useEffect(() => {
     const token = localStorage.getItem('jwtToken');
-    // Si existe el token, consideramos que el usuario ya está autenticado
     if (token) {
       setIsLoggedIn(true);
       setCurrentUser('Usuario'); 
     }
-  }, []); // El array de dependencias vacío asegura que se ejecuta solo una vez al cargar la página
+  }, []); // El array de dependencias vacío asegura que se ejecuta solo una vez al cargar
 
   const handleLoginSuccess = (user) => {
     setIsLoggedIn(true);
