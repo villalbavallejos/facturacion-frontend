@@ -16,6 +16,11 @@ export default function Sidebar({ username, onLogout }) {
             Productos
           </NavLink>
         </li>
+        <li>
+          <NavLink to="/dashboard/facturacion" className={({ isActive }) => isActive ? "active" : ""}>
+            Facturación
+          </NavLink>
+        </li>
       </ul>
       <div className="sidebar-footer">
         <div className="user-info">Conectado como: <strong>{username}</strong></div>
